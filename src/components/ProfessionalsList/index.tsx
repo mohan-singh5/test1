@@ -17,5 +17,6 @@ export default ProfessionalsList;
 const Root = styled.div`
   border: 1px solid var(--borderColor);
   max-width: 80rem;
-  margin: 0rem auto;
+  margin: 1rem auto;
+  border-radius: 4px;
 `;

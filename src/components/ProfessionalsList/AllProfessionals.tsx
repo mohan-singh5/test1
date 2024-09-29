@@ -10,10 +10,13 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { setAllProfessionals } from "@/redux/features/professionals/professionalsSlice";
 import SkeletonCard from "./SkeletonCard";
 import DropDownValues from "../DropDownValues";
+import { deleteCookie } from "cookies-next";
+import { useRouter } from "next/navigation";
 
 const AllProfessionals = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
   const { professionals } = useSelector(
     (state: RootState) => state.professionals
   );
@@ -36,12 +39,25 @@ const AllProfessionals = () => {
     getAllProfessionals();
   }, []);
 
+  const Logout = () => {
+    deleteCookie("authToken");
+    router.push("/login");
+  };
+
   return (
     <Root className="">
-      <h1 className="text-3xl font-semibold">All Professionals</h1>
-      <div className="mb-8 mt-3 flex items-center gap-5 justify-between">
+      <div className="flex items-center gap-5 justify-between">
+        <h1 className="text-3xl font-semibold">All Professionals</h1>
+        <button
+          className="px-4 py-1.5 bg-primary text-white rounded-md"
+          onClick={Logout}
+        >
+          Logout
+        </button>
+      </div>
+      <div className="mb-8 mt-5 flex items-center gap-5 justify-between">
         <div className="opacity-60">
-          Showing {professionals.total_records} Results
+          Showing {professionals.total_records || 0} Results
         </div>
         <div className="">
           <label htmlFor="" className="mr-2 opacity-60">
