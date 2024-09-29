@@ -15,7 +15,6 @@ import styled from "styled-components";
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { userResponse } = useSelector((state: RootState) => state.usersignup);
   const dispatch = useDispatch<AppDispatch>();
@@ -59,56 +58,47 @@ const VerifyOtp = () => {
       <Card>
         <Title>Verify Email</Title>
         <Subtitle>Please enter OTP received in your email</Subtitle>
+        <PinInput
+          length={6}
+          focus
+          type="numeric"
+          onComplete={(value) => {
+            setOtp(value);
+            setError("");
+          }}
+          onChange={(value) => {
+            setOtp(value);
+            setError("");
+          }}
+          inputStyle={{
+            borderColor: "lightgray",
+            borderWidth: "1px",
+            borderRadius: "8px",
+            width: "3rem",
+            height: "3rem",
+            margin: "0.5rem",
+            fontSize: "1.5rem",
+            backgroundColor: "#F7FAFC",
+          }}
+          inputFocusStyle={{
+            borderColor: "#4299E1",
+            outline: "none",
+          }}
+        />
+        <div className="resend">Resend Code</div>
 
-        {isSubmitted ? (
-          <div>
-            <p className="text-green-500 mb-4">OTP verified successfully!</p>
-          </div>
-        ) : (
-          <>
-            <PinInput
-              length={6}
-              focus
-              type="numeric"
-              onComplete={(value) => {
-                setOtp(value);
-                setError("");
-              }}
-              onChange={(value) => {
-                setOtp(value);
-                setError("");
-              }}
-              inputStyle={{
-                borderColor: "lightgray",
-                borderWidth: "1px",
-                borderRadius: "8px",
-                width: "3rem",
-                height: "3rem",
-                margin: "0.5rem",
-                fontSize: "1.5rem",
-                backgroundColor: "#F7FAFC",
-              }}
-              inputFocusStyle={{
-                borderColor: "#4299E1",
-                outline: "none",
-              }}
-            />
-            <div className="resend">Resend Code</div>
+        {error && <ErrorText>{error}</ErrorText>}
 
-            {error && <ErrorText>{error}</ErrorText>}
-
-            <VerifyButton
-              onClick={userSignupWithOtp}
-              className={`${loading ? "opacity-60 pointer-events-none" : ""}`}
-            >
-              {loading ? (
-                <ImSpinner2 className="animate-spin text-2xl" />
-              ) : (
-                "Verify"
-              )}
-            </VerifyButton>
-          </>
-        )}
+        <VerifyButton
+          onClick={userSignupWithOtp}
+          className={`${loading ? "opacity-60 pointer-events-none" : ""}`}
+        >
+          {loading ? (
+            <ImSpinner2 className="animate-spin text-2xl" />
+          ) : (
+            "Verify"
+          )}
+        </VerifyButton>
       </Card>
     </Container>
   );

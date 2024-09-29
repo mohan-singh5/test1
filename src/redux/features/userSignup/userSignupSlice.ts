@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { UserSignupT } from "@/types";
 import { UserResponseT, UserSignupOtpResponseT } from "./userSignupTypes";
 
@@ -18,30 +18,15 @@ const userSignupSliceReducers = createSlice({
   name: "uploadDesign",
   initialState,
   reducers: {
-    setUserSignupResponse: (
-      state,
-      actions: {
-        payload: UserResponseT;
-        type: string;
-      }
-    ) => {
+    setUserSignupResponse: (state, actions: PayloadAction<UserResponseT>) => {
       state.userResponse = actions.payload;
     },
-    setUserSignupData: (
-      state,
-      actions: {
-        payload: UserSignupT;
-        type: string;
-      }
-    ) => {
+    setUserSignupData: (state, actions: PayloadAction<UserSignupT>) => {
       state.userSignupData = actions.payload;
     },
     setUserSignupOtpResData: (
       state,
-      actions: {
-        payload: UserSignupOtpResponseT;
-        type: string;
-      }
+      actions: PayloadAction<UserSignupOtpResponseT>
     ) => {
       state.userSignupOtpResponse = actions.payload;
     },

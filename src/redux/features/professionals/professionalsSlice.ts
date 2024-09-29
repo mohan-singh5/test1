@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DropdownValuesT, ProfessionalsT } from "./professionalsType";
 
 export interface professionalsState {
@@ -15,22 +15,10 @@ const professionalsSliceReducers = createSlice({
   name: "uploadDesign",
   initialState,
   reducers: {
-    setAllProfessionals: (
-      state,
-      actions: {
-        payload: ProfessionalsT;
-        type: string;
-      }
-    ) => {
+    setAllProfessionals: (state, actions: PayloadAction<ProfessionalsT>) => {
       state.professionals = actions.payload;
     },
-    setDropdownList: (
-      state,
-      actions: {
-        payload: DropdownValuesT;
-        type: string;
-      }
-    ) => {
+    setDropdownList: (state, actions: PayloadAction<DropdownValuesT>) => {
       state.dropdowns = actions.payload;
     },
   },
