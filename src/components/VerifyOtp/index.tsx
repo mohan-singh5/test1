@@ -26,7 +26,7 @@ const VerifyOtp = () => {
     setError("");
     if (otp.length !== 6) {
       setLoading(false);
-      setError("Please enter a 6-digit OTP.");
+      setError("Please enter a 6-digit OTP");
       return;
     }
     const { limit, ...userRes } = userResponse.data;
