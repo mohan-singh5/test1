@@ -10,15 +10,21 @@ import React, { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
 import PinInput from "react-pin-input";
 import { useDispatch, useSelector } from "react-redux";
+import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
+import "react-toastify/dist/ReactToastify.css";
 
 const VerifyOtp = () => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const { userResponse } = useSelector((state: RootState) => state.usersignup);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  const { userSignupData } = useSelector(
+    (state: RootState) => state.usersignup
+  );
 
   const userSignupWithOtp = async () => {
     setLoading(true);
@@ -50,6 +56,24 @@ const VerifyOtp = () => {
       setError(err?.response?.data.message);
       console.error("error:", err);
       setLoading(false);
+    }
+  };
+
+  const resendOtp = async () => {
+    setResendLoading(true);
+    const url = `${BASE_URL}/api/auth/user-signup`;
+    try {
+      const res = await axios.post(url, userSignupData, headers);
+      if (res.data.status) {
+        toast.success("OTP has been sent successfully!");
+      } else {
+        toast.error("Something Went Wrong! Try again");
+      }
+      setResendLoading(false);
+    } catch (err) {
+      console.error("error:", err);
+      setResendLoading(false);
+      toast.error("Something Went Wrong! Try again");
     }
   };
 
@@ -85,7 +109,14 @@ const VerifyOtp = () => {
             outline: "none",
           }}
         />
-        <div className="resend">Resend Code</div>
+        <div
+          className={`resend ${
+            resendLoading ? "opacity-60 pointer-events-none" : ""
+          }`}
+          onClick={resendOtp}
+        >
+          Resend Code
+        </div>
 
         {error && <ErrorText>{error}</ErrorText>}
 
@@ -100,6 +131,7 @@ const VerifyOtp = () => {
           )}
         </VerifyButton>
       </Card>
+      <ToastContainer />
     </Container>
   );
 };
@@ -166,4 +198,5 @@ const VerifyButton = styled.button`
 const ErrorText = styled.p`
   color: #f56565;
   margin-top: 0.5rem;
+  font-size: 14px;
 `;

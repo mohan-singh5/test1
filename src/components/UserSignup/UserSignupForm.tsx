@@ -149,7 +149,7 @@ const UserSignupForm = () => {
               </label>
             </div>
             {errors.gender && (
-              <p className="text-red-500">{errors.gender.message}</p>
+              <p className="text-red-500 text-xs">{errors.gender.message}</p>
             )}
           </div>
 
@@ -167,7 +167,9 @@ const UserSignupForm = () => {
               <span className="text-primary">Privacy Policy</span>
             </label>
             {errors.terms_condition && (
-              <p className="text-red-500">{errors.terms_condition.message}</p>
+              <p className="text-red-500 text-xs">
+                {errors.terms_condition.message}
+              </p>
             )}
           </div>
 
