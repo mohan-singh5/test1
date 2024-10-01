@@ -1,0 +1,19 @@
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+.formRow {
+  display: flex;
+  gap: 15px;
+}

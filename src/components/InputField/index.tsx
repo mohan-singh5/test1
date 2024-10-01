@@ -7,7 +7,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 interface InputFieldProps {
   label: string;
   placeholder: string;
-  type: "text" | "email" | "password" | "tel";
+  type: "text" | "email" | "password" | "tel" | "date";
   register: any;
   error?: string;
 }

@@ -15,7 +15,7 @@ const initialState: userSignupState = {
 };
 
 const userSignupSliceReducers = createSlice({
-  name: "uploadDesign",
+  name: "userSignup",
   initialState,
   reducers: {
     setUserSignupResponse: (state, actions: PayloadAction<UserResponseT>) => {

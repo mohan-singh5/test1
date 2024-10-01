@@ -26,7 +26,6 @@ const AllProfessionals = () => {
     try {
       setLoading(true);
       const res = await axios.post(url, null, headers);
-      console.log("Signup successful:", res.data);
       dispatch(setAllProfessionals(res?.data?.data));
       setLoading(false);
     } catch (err) {
@@ -69,7 +68,7 @@ const AllProfessionals = () => {
         </div>
       </div>
       <div className="flex gap-5 justify-between">
-        <div className="flex-[0.3] flex flex-col gap-5">
+        <div className="flex-[0.3] max-w-xs flex flex-col gap-5">
           <DropDownValues />
         </div>
         <div className="flex-[0.7] flex flex-col gap-5">

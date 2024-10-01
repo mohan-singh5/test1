@@ -12,7 +12,7 @@ const initialState: professionalsState = {
 };
 
 const professionalsSliceReducers = createSlice({
-  name: "uploadDesign",
+  name: "professionals",
   initialState,
   reducers: {
     setAllProfessionals: (state, actions: PayloadAction<ProfessionalsT>) => {

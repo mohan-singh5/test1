@@ -9,6 +9,11 @@ export interface UserSignupT {
   terms_condition: string;
 }
 
+export interface ProfessionalSignupT extends UserSignupT {
+  country_code: string;
+  phone_no: string;
+}
+
 export interface VeryOtpT {
   user_token: string;
   otp_token: string;

@@ -14,7 +14,7 @@ import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
 
-const VerifyOtp = () => {
+const VerifyOtpForUser = () => {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -136,7 +136,7 @@ const VerifyOtp = () => {
   );
 };
 
-export default VerifyOtp;
+export default VerifyOtpForUser;
 
 // Styled Components
 const Container = styled.div`
