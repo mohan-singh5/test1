@@ -29,7 +29,7 @@ const LoginComp = () => {
     try {
       setLoading(true);
       const res = await axios.post(url, loginData);
-      console.log("Login successful:", res.data);
+      // console.log("Login successful:", res.data);
       setLoading(false);
       if (res.data.status) {
         router.push("/");

@@ -12,7 +12,13 @@ const ProfessionalCard = ({ professional }: { professional: RecordT }) => {
         <div className="flex items-center gap-3">
           {user?.profile_image ? (
             <div className="border border-gray-400 w-14 h-14 flex items-center justify-center rounded-full">
-              <Image src={user.profile_image} alt="" width={40} height={40} />
+              <Image
+                src={user.profile_image}
+                alt=""
+                width={40}
+                height={40}
+                className="w-10 h-10"
+              />
             </div>
           ) : (
             <div className="w-14 h-14 rounded-full bg-gray-300"></div>

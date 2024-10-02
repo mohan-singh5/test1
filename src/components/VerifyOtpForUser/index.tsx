@@ -43,7 +43,7 @@ const VerifyOtpForUser = () => {
     const url = `${BASE_URL}/api/auth/verify/signup-otp`;
     try {
       const res = await axios.post(url, formData, headers);
-      console.log("Signup successful with OTP:", res.data);
+      // console.log("Signup successful with OTP:", res.data);
       dispatch(setUserSignupOtpResData(res?.data?.data));
       const expires = new Date();
       expires.setFullYear(expires.getFullYear() + 5);

@@ -45,7 +45,7 @@ const CompanyDetails = () => {
 
       if (!res.data.status) {
         const errors = res.data.errors;
-        console.log(errors, "errors");
+        // console.log(errors, "errors");
 
         const ignoredFields = [
           "proof_of_identity",

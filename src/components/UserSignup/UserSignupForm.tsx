@@ -31,7 +31,7 @@ const UserSignupForm = () => {
     try {
       setLoading(true);
       const res = await axios.post(url, userData, headers);
-      console.log("Signup successful:", res.data);
+      // console.log("Signup successful:", res.data);
       if (res.data.status) {
         dispatch(setUserSignupResponse(res.data));
         dispatch(setUserSignupData(userData));

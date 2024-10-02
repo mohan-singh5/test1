@@ -36,7 +36,7 @@ const DropDownValues = () => {
     try {
       setLoading(true);
       const res = await axios.post(url, payload, headers);
-      console.log("Signup successful:", res.data);
+      // console.log("Signup successful:", res.data);
       dispatch(setDropdownList(res?.data?.data));
       setLoading(false);
     } catch (err) {
@@ -57,7 +57,7 @@ const DropDownValues = () => {
         Object.entries(dropdowns).map(([key, value]) => (
           <div key={key} className="">
             <h6 className="text-primary mb-1 font-medium">{key}</h6>
-            <SingleDropDownList options={value} />
+            <SingleDropDownList options={value} key={key} />
           </div>
         ))
       )}

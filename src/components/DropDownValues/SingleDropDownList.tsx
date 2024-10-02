@@ -17,7 +17,7 @@ const SingleDropDownList: React.FC<Props> = ({ options }) => {
   return (
     <div className="flex flex-col gap-1">
       {options.map((option: Option, index: number) => (
-        <div key={option.unique_id}>
+        <div key={index}>
           <input type="checkbox" id={`checkbox-${index}`} />
           <label className="ml-2" htmlFor={`checkbox-${index}`}>
             {option.name || option.label}
