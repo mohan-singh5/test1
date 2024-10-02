@@ -11,13 +11,16 @@ const ProfessionalSignup = () => {
   const { professionalResponse, steps } = useSelector(
     (state: RootState) => state.professionalSignup
   );
+  const isOtp =
+    professionalResponse.status && steps === ProfessionalSignupStepsE.otp;
   return (
     <>
-      {professionalResponse.status && steps === ProfessionalSignupStepsE.otp ? (
+      <div className={`${isOtp ? "" : "hidden"}`}>
         <VerifyOtpForProfessional />
-      ) : (
+      </div>
+      <div className={`${isOtp ? "hidden" : ""}`}>
         <ProfessionalSignupForm />
-      )}
+      </div>
     </>
   );
 };

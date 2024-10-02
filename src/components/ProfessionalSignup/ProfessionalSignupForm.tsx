@@ -2,8 +2,19 @@ import React from "react";
 import AccountDetails from "./AccountDetails";
 import styled from "styled-components";
 import CompanyDetails from "./CompanyDetails";
+import AdditionalDetails from "./AdditionalDetails";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+import { ProfessionalSignupStepsE } from "@/redux/features/professionalSignup/professionalSignupTypes";
 
 const ProfessionalSignupForm = () => {
+  const { steps } = useSelector((state: RootState) => state.professionalSignup);
+
+  let isAccountDetails = steps === ProfessionalSignupStepsE.accountDetails;
+  let isCompanyDetails = steps === ProfessionalSignupStepsE.companyDetails;
+  let isAdditionalDetails =
+    steps === ProfessionalSignupStepsE.additionalDetails;
+
   return (
     <Root>
       <div className="mb-3">
@@ -18,19 +29,32 @@ const ProfessionalSignupForm = () => {
         <div className="flex gap-5 justify-between">
           <div>
             <div>STEP 1</div>
-            <div>Account Details</div>
+            <div className={`${isAccountDetails ? "text-primary" : ""}`}>
+              Account Details
+            </div>
           </div>
           <div>
             <div>STEP 2</div>
-            <div>Company Details</div>
+            <div className={`${isCompanyDetails ? "text-primary" : ""}`}>
+              Company Details
+            </div>
           </div>
           <div>
             <div>STEP 3</div>
-            <div>Additional Details</div>
+            <div className={`${isAdditionalDetails ? "text-primary" : ""}`}>
+              Additional Details
+            </div>
           </div>
         </div>
-        {/* <AccountDetails /> */}
-        <CompanyDetails />
+        <div className={`${isAccountDetails ? "" : "hidden"}`}>
+          <AccountDetails />
+        </div>
+        <div className={`${isCompanyDetails ? "" : "hidden"}`}>
+          <CompanyDetails />
+        </div>
+        <div className={`${isAdditionalDetails ? "" : "hidden"}`}>
+          <AdditionalDetails />
+        </div>
       </FormWrapper>
     </Root>
   );

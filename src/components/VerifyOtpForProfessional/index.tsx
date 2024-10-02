@@ -1,10 +1,8 @@
 "use client";
 
 import { BASE_URL, headers } from "@/network";
-import { setUserSignupOtpResData } from "@/redux/features/userSignup/userSignupSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import axios from "axios";
-import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { ImSpinner2 } from "react-icons/im";
@@ -13,7 +11,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast, ToastContainer } from "react-toastify";
 import styled from "styled-components";
 import "react-toastify/dist/ReactToastify.css";
-import { setProfessionalSignupSteps } from "@/redux/features/professionalSignup/professionalSignupSlice";
+import {
+  setProfessionalSignupSteps,
+  setUserData,
+} from "@/redux/features/professionalSignup/professionalSignupSlice";
 import { ProfessionalSignupStepsE } from "@/redux/features/professionalSignup/professionalSignupTypes";
 
 const VerifyOtpForProfessional = () => {
@@ -30,7 +31,7 @@ const VerifyOtpForProfessional = () => {
     (state: RootState) => state.professionalSignup
   );
 
-  const userSignupWithOtp = async () => {
+  const professionalSignupWithOtp = async () => {
     setLoading(true);
     setError("");
     if (otp.length !== 6) {
@@ -46,18 +47,12 @@ const VerifyOtpForProfessional = () => {
     const url = `${BASE_URL}/api/auth/verify/signup-otp`;
     try {
       const res = await axios.post(url, formData, headers);
-      console.log("Signup successful with OTP:", res.data);
-      dispatch(setUserSignupOtpResData(res?.data?.data));
-      const expires = new Date();
-      expires.setFullYear(expires.getFullYear() + 5);
-      setCookie("authToken", res?.data?.data.token, {
-        expires,
-      });
-      setLoading(false);
+      // console.log("Signup successful with OTP:", res.data);
       dispatch(
         setProfessionalSignupSteps(ProfessionalSignupStepsE.companyDetails)
       );
-      // router.push("/");
+      dispatch(setUserData(res?.data?.data));
+      setLoading(false);
     } catch (err: any) {
       setError(err?.response?.data.message);
       console.error("error:", err);
@@ -127,7 +122,7 @@ const VerifyOtpForProfessional = () => {
         {error && <ErrorText>{error}</ErrorText>}
 
         <VerifyButton
-          onClick={userSignupWithOtp}
+          onClick={professionalSignupWithOtp}
           className={`${loading ? "opacity-60 pointer-events-none" : ""}`}
         >
           {loading ? (

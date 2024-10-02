@@ -30,29 +30,31 @@ export type CompanyDetailsT = {
   address_line_2: string;
   pin_code: string;
   company_email: string;
-  employment_start_date: Date;
+  employment_start_date: string;
   owner_name: string;
   entitled_to_practice: string;
   company_formation_type: string;
   license_no: string;
-  is_file_upload: string;
   user_id: string;
 };
 
-// incorporation_certification: string;
-// license_file: string;
-// proof_of_identity: string;
+export type AdditionalDetailsT = {
+  incorporation_certification: File;
+  license_file: File;
+  proof_of_identity: File;
+  is_file_upload: string;
+};
 
-// export type UserSignupOtpResponseT = {
-//   user_data: UserSignupOtpDataT;
-//   token: string;
-// };
+export type userDataT = {
+  user_data: DataT;
+  token: string;
+};
 
-// export type UserSignupOtpDataT = {
-//   first_name: string;
-//   last_name: string;
-//   email: string;
-//   unique_id: number;
-//   profile_image_url: string;
-//   status: string;
-// };
+export type DataT = {
+  first_name: string;
+  last_name: string;
+  email: string;
+  unique_id: number;
+  profile_image_url: string;
+  status: string;
+};

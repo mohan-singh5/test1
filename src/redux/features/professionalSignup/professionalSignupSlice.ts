@@ -1,23 +1,29 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ProfessionalSignupT, UserSignupT } from "@/types";
 import {
+  AdditionalDetailsT,
+  CompanyDetailsT,
   ProfessionalResponseT,
   ProfessionalSignupStepsE,
-  // UserSignupOtpResponseT,
+  userDataT,
 } from "./professionalSignupTypes";
 
 export interface professionalSignupState {
   steps: ProfessionalSignupStepsE;
   professionalResponse: ProfessionalResponseT;
   professionalSignupData: UserSignupT;
-  // userSignupOtpResponse: UserSignupOtpResponseT;
+  companyDetails: CompanyDetailsT;
+  AdditionalDetails: AdditionalDetailsT;
+  userData: userDataT;
 }
 
 const initialState: professionalSignupState = {
   steps: ProfessionalSignupStepsE.accountDetails,
   professionalResponse: {} as ProfessionalResponseT,
   professionalSignupData: {} as UserSignupT,
-  // userSignupOtpResponse: {} as UserSignupOtpResponseT,
+  companyDetails: {} as CompanyDetailsT,
+  AdditionalDetails: {} as AdditionalDetailsT,
+  userData: {} as userDataT,
 };
 
 const ProfessionalSignupSliceReducers = createSlice({
@@ -42,12 +48,18 @@ const ProfessionalSignupSliceReducers = createSlice({
     ) => {
       state.steps = actions.payload;
     },
-    // setUserSignupOtpResData: (
-    //   state,
-    //   actions: PayloadAction<UserSignupOtpResponseT>
-    // ) => {
-    //   state.userSignupOtpResponse = actions.payload;
-    // },
+    setComapanyDetails: (state, actions: PayloadAction<CompanyDetailsT>) => {
+      state.companyDetails = actions.payload;
+    },
+    setAdditionalDetails: (
+      state,
+      actions: PayloadAction<AdditionalDetailsT>
+    ) => {
+      state.AdditionalDetails = actions.payload;
+    },
+    setUserData: (state, actions: PayloadAction<userDataT>) => {
+      state.userData = actions.payload;
+    },
   },
 });
 
@@ -55,7 +67,9 @@ export const {
   setProfessionalSignupResponse,
   setProfessionalSignupData,
   setProfessionalSignupSteps,
-  // setUserSignupOtpResData,
+  setComapanyDetails,
+  setAdditionalDetails,
+  setUserData,
 } = ProfessionalSignupSliceReducers.actions;
 
 export default ProfessionalSignupSliceReducers;

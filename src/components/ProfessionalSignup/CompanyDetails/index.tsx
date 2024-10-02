@@ -3,15 +3,14 @@
 import React, { useEffect, useState } from "react";
 import styles from "./companyDetails.module.css";
 import { BASE_URL, headers } from "@/network";
-import { useForm, SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { ImSpinner2 } from "react-icons/im";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 import InputField from "@/components/InputField";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import {
-  setProfessionalSignupResponse,
+  setComapanyDetails,
   setProfessionalSignupSteps,
 } from "@/redux/features/professionalSignup/professionalSignupSlice";
 import {
@@ -20,6 +19,7 @@ import {
 } from "@/redux/features/professionalSignup/professionalSignupTypes";
 import axios from "axios";
 import TextAreaField from "@/components/TextAreaField";
+import { ImSpinner2 } from "react-icons/im";
 
 const CompanyDetails = () => {
   const {
@@ -31,30 +31,54 @@ const CompanyDetails = () => {
   } = useForm<CompanyDetailsT>();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  const { professionalResponse } = useSelector(
+    (state: RootState) => state.professionalSignup
+  );
 
-  const professionalSignup: SubmitHandler<CompanyDetailsT> = async (
-    professionalData
+  const saveCompanyDetails: SubmitHandler<CompanyDetailsT> = async (
+    companyData
   ) => {
-    console.log(professionalData, "hello");
-    return;
-    const url = `${BASE_URL}/api/auth/professional-signup`;
+    const url = `${BASE_URL}/api/professional/save-company`;
     try {
       setLoading(true);
-      const res = await axios.post(url, professionalData, headers);
-      if (res.data.status) {
-        dispatch(setProfessionalSignupResponse(res.data));
-        dispatch(
-          setProfessionalSignupSteps(ProfessionalSignupStepsE.additionalDetails)
-        );
-      } else {
+      const res = await axios.post(url, companyData, headers);
+
+      if (!res.data.status) {
         const errors = res.data.errors;
-        Object.keys(errors).forEach((field) => {
-          setError(field as keyof CompanyDetailsT, {
-            type: "server",
-            message: errors[field],
+        console.log(errors, "errors");
+
+        const ignoredFields = [
+          "proof_of_identity",
+          "incorporation_certification",
+          "license_file",
+        ];
+
+        const filteredErrors = Object.keys(errors).filter(
+          (field) => !ignoredFields.includes(field)
+        );
+
+        if (filteredErrors.length > 0) {
+          filteredErrors.forEach((field) => {
+            setError(field as keyof CompanyDetailsT, {
+              type: "server",
+              message: errors[field],
+            });
           });
-        });
+        } else {
+          dispatch(
+            setComapanyDetails({
+              ...companyData,
+              user_id: professionalResponse.data.user_id,
+            })
+          );
+          dispatch(
+            setProfessionalSignupSteps(
+              ProfessionalSignupStepsE.additionalDetails
+            )
+          );
+        }
       }
+
       setLoading(false);
     } catch (err) {
       console.error("error:", err);
@@ -260,7 +284,33 @@ const CompanyDetails = () => {
           )}
         </div>
       </div>
-      <button onClick={handleSubmit(professionalSignup)}>hello</button>
+      <div className="flex items-center justify-between gap-5 mt-5">
+        <button
+          className="px-4 py-1.5 bg-primary text-white rounded-md"
+          onClick={() =>
+            dispatch(
+              setProfessionalSignupSteps(
+                ProfessionalSignupStepsE.accountDetails
+              )
+            )
+          }
+        >
+          Back
+        </button>
+        <button
+          type="submit"
+          className={`w-24 h-10 flex items-center justify-center bg-primary text-white rounded-md ${
+            loading ? "opacity-60 pointer-events-none" : ""
+          }`}
+          onClick={handleSubmit(saveCompanyDetails)}
+        >
+          {loading ? (
+            <ImSpinner2 className="animate-spin text-2xl" />
+          ) : (
+            "Continue"
+          )}
+        </button>
+      </div>
     </div>
   );
 };

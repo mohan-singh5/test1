@@ -6,8 +6,8 @@ import { BASE_URL, headers } from "@/network";
 import { ProfessionalSignupT } from "@/types";
 import axios from "axios";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
 import { ImSpinner2 } from "react-icons/im";
 import Link from "next/link";
 import InputField from "@/components/InputField";
@@ -30,6 +30,9 @@ const AccountDetails = () => {
   } = useForm<ProfessionalSignupT>();
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
+  const { userData } = useSelector(
+    (state: RootState) => state.professionalSignup
+  );
 
   const professionalSignup: SubmitHandler<ProfessionalSignupT> = async (
     professionalData
@@ -38,7 +41,7 @@ const AccountDetails = () => {
     try {
       setLoading(true);
       const res = await axios.post(url, professionalData, headers);
-      console.log("Signup successful:", res.data);
+      // console.log("Signup successful:", res.data);
       if (res.data.status) {
         dispatch(setProfessionalSignupResponse(res.data));
         dispatch(setProfessionalSignupData(professionalData));
@@ -63,6 +66,12 @@ const AccountDetails = () => {
     register("country_code", { required: "Country code is required" });
     register("phone_no", { required: "Phone number is required" });
   }, [register]);
+
+  const handleNextStep = () => {
+    dispatch(
+      setProfessionalSignupSteps(ProfessionalSignupStepsE.companyDetails)
+    );
+  };
 
   return (
     <div>
@@ -224,6 +233,17 @@ const AccountDetails = () => {
           Sign in now
         </Link>
       </p>
+
+      <div className="flex items-center justify-end gap-5 mt-5">
+        <button
+          className={`w-24 h-10 flex items-center justify-center bg-primary text-white rounded-md ${
+            userData.token ? "" : "pointer-events-none opacity-60"
+          }`}
+          onClick={handleNextStep}
+        >
+          Continue
+        </button>
+      </div>
     </div>
   );
 };
